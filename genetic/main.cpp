@@ -1,30 +1,9 @@
 #include<iostream>
+#include<node.hpp>
+#include <SFML/Graphics.hpp>
 
 using namespace std;
-/*	Clase nodo, representa los estados
-*/
-class Node
-{
-	public:
-	Node(int neostate);
-	int get();
-	void set(int num);
 
-	private:
-	int state;
-};
-
-Node::Node(int neostate) {
-	state = neostate;
-}
-int Node::get() {
-	return state;
-}
-
-
-void Node::set(int num) {
-	state = num;
-}
 /* cuadricula de estados */
 class Grid
 {
@@ -65,6 +44,7 @@ void Grid::setSeed(int xS, int yS) {
 }
 
 int main() {
+	sf::RenderWindow window(sf::VideoMode(1024, 720), "Cellchain");
 	int x, y, a, b = 0;
 	bool act = true;
 	char c;
