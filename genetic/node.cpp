@@ -1,5 +1,5 @@
 #include<iostream>
-#include<node.hpp>
+#include"node.h"
 
 
 Node::Node(int neostate) {

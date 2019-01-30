@@ -1,77 +1,44 @@
 #include<iostream>
-#include<node.hpp>
 #include <SFML/Graphics.hpp>
-
+#include"node.h"
+#include"map.h"
 using namespace std;
 
-/* cuadricula de estados */
-class Grid
-{
-	public:
-	Grid(int x,int y);
-	void show();
-	void setSeed(int xS, int yS);
-
-	private:
-	int x;
-	int y;
-	Node*** GridArr;
-};
-
-Grid::Grid(int a, int b) {
-	x = a;
-	y = b;
-	GridArr = new Node**[x];
-	for (int i = 0; i < x; i++) {
-		GridArr[i] = new Node*[y];
-		for(int j = 0; j < y; j++) {
-			GridArr[i][j] = new Node(0);
-		}
-	}
-}
-
-void Grid::show() {
-	for (int i = 0; i < x; i++){
-		for(int j = 0; j < y; j++) {
-			cout << "[" << GridArr[i][j]->get() << "]";
-			if(j+1 == y) cout << "\n";
-		}
-	}
-}
-
-void Grid::setSeed(int xS, int yS) {
-	GridArr[xS][yS]->set(1);
-}
-
 int main() {
+
 	sf::RenderWindow window(sf::VideoMode(1024, 720), "Cellchain");
+	const int level[] =
+	{
+		0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 0,
+		1, 1, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 3,
+		0, 1, 0, 0, 2, 0, 3, 3, 3, 0, 1, 1, 1, 0, 0, 0,
+		0, 1, 1, 0, 3, 3, 3, 0, 0, 0, 1, 1, 1, 2, 0, 0,
+		0, 0, 1, 0, 3, 0, 2, 2, 0, 0, 1, 1, 1, 1, 2, 0,
+		2, 0, 1, 0, 3, 0, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1,
+		0, 0, 1, 0, 3, 2, 2, 2, 0, 0, 0, 0, 1, 1, 1, 1,
+	};
+	Grid map;
+	if (!map.load("tileset.png", sf::Vector2u(64, 64), level, 16, 8))
+			return -1;
+
 	int x, y, a, b = 0;
 	bool act = true;
 	char c;
-	cout << "please give x and y\n";
-	cin >> x
-	    >> y;
-	Grid grid = Grid(x,y);
-	grid.show();
-	while(act == true) {
-		cout << "Press F to get next state, N to generate seed, C to exit:\n";
-		cin >> c;
-		switch(c) {
-			case 'n' :
-			case 'N' :
-				cout << "Choose where to seed\n";
-				cin >> a
-				    >> b;
-				grid.setSeed(a,b);
-			case 'f' :
-			case 'F' :
-				grid.show();
-				break;
-			case 'c' :
-			case 'C' :
-				act = false;
-				break;
-		}
+	while (window.isOpen()) {
+			// handle events
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+					if(event.type == sf::Event::Closed)
+							window.close();
+			}
+
+			// draw the map
+			window.clear();
+			window.draw(map);
+			window.display();
 	}
+
 	return 0;
 }

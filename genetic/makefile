@@ -9,6 +9,10 @@ INCLUDES = -lsfml-graphics -lsfml-window -lsfml-system
 FILE = main
 
 all: main.cpp
+	$(CC) $(CFLAGS) map.cpp
+	$(CC) $(CFLAGS) node.cpp
 	$(CC) $(CFLAGS) $(FILE).cpp
-	$(CC) $(FILE).o    $(BFLAGS) sfml-app $(INCLUDES)
-	rm $(FILE).o
+	$(CC) $(FILE).o node.o map.o $(BFLAGS)  cellChain $(INCLUDES)
+
+clean:
+	rm *.o
